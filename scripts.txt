@@ -1,0 +1,67 @@
+CREATE TABLE TypeCompte (
+  TypeCompte_id INT NOT NULL,
+  TypeCompte_libelle VARCHAR(100),
+  TypeCompte_pourcentageInterets DECIMAL
+  CONSTRAINT PK_TypeCompte PRIMARY KEY (TypeCompte_id)
+);
+
+CREATE TABLE TypeOperation (
+  TypeOperation_id INT NOT NULL,
+  TypeOperation_libelle VARCHAR(100),
+  CONSTRAINT PK_TypeOperation PRIMARY KEY (TypeOperation_id)
+);
+
+CREATE TABLE CategorieDepensesRevenus (
+  CategorieDepensesRevenus_id INT NOT NULL,
+  CategorieDepensesRevenus_libelle VARCHAR(100),
+  CONSTRAINT PK_CategorieDepensesRevenus PRIMARY KEY (CategorieDepensesRevenus_id)
+);
+
+CREATE TABLE Compte (
+  Compte_id INT NOT NULL,
+  Compte_plafond DECIMAL,
+  Compte_seuilMinimal DECIMAL,
+  Compte_solde DECIMAL,
+  Compte_idTypeCompte INT,
+  CONSTRAINT PK_Compte PRIMARY KEY (TypeCompte_id),
+  CONSTRAINT FK_Compte_TypeCompte FOREIGN KEY (Compte_idTypeCompte) REFERENCES TypeCompte(TypeCompte_id)
+);
+
+CREATE TABLE Virement (
+  Virement_id INT NOT NULL,
+  Virement_montant DECIMAL,
+  Virement_idCompteAPrelever INT,
+  Virement_idCompteACrediter INT,
+  Virement_idCategorieDepensesRevenus INT
+  CONSTRAINT PK_Virement PRIMARY KEY (Virement_id),
+  CONSTRAINT FK_Virement_Compte FOREIGN KEY (Virement_idCompteAPrelever) REFERENCES Compte(Compte_id),
+  CONSTRAINT FK_Virement_Compte FOREIGN KEY (Virement_idCompteACrediter) REFERENCES Compte(Compte_id),
+  CONSTRAINT FK_Virement_CategorieDepensesRevenus FOREIGN KEY ( Virement_idCategorieDepensesRevenus) REFERENCES  CategorieDepensesRevenus(CategorieDepensesRevenus_id)
+);
+
+CREATE TABLE Operation (
+  Operation_id INT NOT NULL,
+  Operation_montant VARCHAR(100),
+  Operation_idTypeOperation INT,
+  Operation_idCategorieDepensesRevenus INT,
+  Operation_idCompteAOperer INT,
+  CONSTRAINT PK_Operation PRIMARY KEY (Operation_id),
+  CONSTRAINT FK_Operation_TypeOperation FOREIGN KEY (Operation_idTypeOperation) REFERENCES TypeOperation(TypeOperation_id),
+  CONSTRAINT FK_Operation_CategorieDepensesRevenus FOREIGN KEY (Operation) REFERENCES CategorieDepensesRevenus(CategorieDepensesRevenus_id),
+  CONSTRAINT FK_Operation_Compte FOREIGN KEY (Operation) REFERENCES  Compte(Compte_id)
+);
+
+CREATE TABLE TypeCompte (
+  TypeCompte_id INT NOT NULL,
+  TypeCompte_libelle VARCHAR(100),
+  TypeCompte_pourcentageInterets DECIMAL
+  CONSTRAINT PK_TypeCompte PRIMARY KEY (TypeCompte_id)
+);
+
+CREATE TABLE TypeCompte (
+  TypeCompte_id INT NOT NULL,
+  TypeCompte_libelle VARCHAR(100),
+  TypeCompte_pourcentageInterets DECIMAL
+  CONSTRAINT PK_TypeCompte PRIMARY KEY (TypeCompte_id)
+);
+
